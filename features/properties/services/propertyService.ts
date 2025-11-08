@@ -1,4 +1,5 @@
-import { supabase } from '@/shared/lib/supabase'
+import { supabase, isSupabaseConfigured } from '@/shared/lib/supabase'
+import { mockProperties } from '@/shared/lib/mockData'
 import type { Database } from '@/shared/types/database'
 
 type Property = Database['public']['Tables']['properties']['Row']
@@ -18,6 +19,47 @@ export interface PropertyFilters {
  * Get all properties with optional filters
  */
 export async function getProperties(filters?: PropertyFilters) {
+  // Use mock data if Supabase is not configured
+  if (!isSupabaseConfigured()) {
+    console.log('Using mock property data (Supabase not configured)')
+    let filtered = mockProperties.filter(p => p.status === (filters?.status || 'available'))
+
+    if (filters?.property_type && filters.property_type !== 'all') {
+      filtered = filtered.filter(p => p.property_type === filters.property_type)
+    }
+
+    if (filters?.min_price_aed) {
+      filtered = filtered.filter(p => p.price_aed >= filters.min_price_aed!)
+    }
+
+    if (filters?.max_price_aed) {
+      filtered = filtered.filter(p => p.price_aed <= filters.max_price_aed!)
+    }
+
+    if (filters?.bedrooms) {
+      filtered = filtered.filter(p => p.bedrooms >= filters.bedrooms!)
+    }
+
+    if (filters?.location) {
+      filtered = filtered.filter(p =>
+        p.location.toLowerCase().includes(filters.location!.toLowerCase())
+      )
+    }
+
+    if (filters?.golden_visa_eligible) {
+      filtered = filtered.filter(p => p.golden_visa_eligible)
+    }
+
+    // Sort by featured first, then by created_at
+    filtered.sort((a, b) => {
+      if (a.is_featured && !b.is_featured) return -1
+      if (!a.is_featured && b.is_featured) return 1
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    })
+
+    return filtered as any
+  }
+
   let query = supabase
     .from('properties')
     .select('*')
@@ -63,6 +105,15 @@ export async function getProperties(filters?: PropertyFilters) {
  * Get a single property by slug
  */
 export async function getPropertyBySlug(slug: string) {
+  // Use mock data if Supabase is not configured
+  if (!isSupabaseConfigured()) {
+    const property = mockProperties.find(p => p.slug === slug)
+    if (!property) {
+      throw new Error('Property not found')
+    }
+    return property as any
+  }
+
   const { data, error } = await supabase
     .from('properties')
     .select('*')
@@ -137,6 +188,20 @@ export async function getSimilarProperties(
   priceAed: number
 ) {
   const priceRange = priceAed * 0.3 // 30% price range
+
+  // Use mock data if Supabase is not configured
+  if (!isSupabaseConfigured()) {
+    const similar = mockProperties
+      .filter(p =>
+        p.status === 'available' &&
+        p.id !== currentPropertyId &&
+        p.location === location &&
+        p.price_aed >= priceAed - priceRange &&
+        p.price_aed <= priceAed + priceRange
+      )
+      .slice(0, 3)
+    return similar as any
+  }
 
   const { data, error } = await supabase
     .from('properties')

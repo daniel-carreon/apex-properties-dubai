@@ -4,9 +4,12 @@ import { getProperties } from '@/features/properties/services/propertyService'
 import { createLead, checkGoldenVisaEligibility } from '@/features/chatbot/services/leadService'
 import { checkViewingAvailability, scheduleViewing } from '@/features/viewings/services/viewingService'
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY!,
-})
+const isAnthropicConfigured = process.env.ANTHROPIC_API_KEY &&
+                              !process.env.ANTHROPIC_API_KEY.includes('your-key')
+
+const anthropic = isAnthropicConfigured
+  ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! })
+  : null
 
 // System prompt for the AI agent
 const SYSTEM_PROMPT = `You are the AI Property Consultant for "Apex Properties Dubai", an ultra-luxury real estate agency specializing in high-net-worth property transactions in Dubai, UAE.
@@ -225,6 +228,13 @@ async function executeTooling(toolName: string, toolInput: any): Promise<any> {
 export async function POST(request: NextRequest) {
   try {
     const { messages } = await request.json()
+
+    // Check if Anthropic is configured
+    if (!anthropic) {
+      return NextResponse.json({
+        message: 'Thank you for your interest in Apex Properties Dubai! \n\n⚠️ The AI chatbot is currently in demo mode and requires API configuration to function.\n\nTo activate the full chatbot experience:\n1. Get an Anthropic API key from console.anthropic.com\n2. Add it to your .env.local file\n3. Restart the development server\n\nIn the meantime, feel free to browse our luxury properties on the homepage, or contact us directly at:\n📞 +971 4 444 5555\n📧 inquiries@apexpropertiesdubai.ae'
+      })
+    }
 
     // Call Claude API with function calling
     const response = await anthropic.messages.create({

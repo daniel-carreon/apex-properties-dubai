@@ -8,7 +8,7 @@ INSERT INTO properties (
   location, neighborhood, description, features,
   status, developer, rental_yield, roi_estimate,
   golden_visa_eligible, main_image_url, gallery_images,
-  is_featured
+  is_featured, completion_date, payment_plan
 ) VALUES
 
 -- 1. Burj Khalifa Penthouse
@@ -37,7 +37,9 @@ INSERT INTO properties (
     'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800',
     'https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800'
   ],
-  true
+  true,
+  NULL,
+  NULL
 ),
 
 -- 2. Palm Jumeirah Signature Villa
@@ -66,7 +68,9 @@ INSERT INTO properties (
     'https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=800',
     'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800'
   ],
-  true
+  true,
+  NULL,
+  NULL
 ),
 
 -- 3. Dubai Marina Bay Penthouse
@@ -94,7 +98,9 @@ INSERT INTO properties (
     'https://images.unsplash.com/photo-1512632578888-169bbbc64f33?w=800',
     'https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=800'
   ],
-  true
+  true,
+  NULL,
+  NULL
 ),
 
 -- 4. Jumeirah Bay Island Villa
@@ -122,7 +128,9 @@ INSERT INTO properties (
     'https://images.unsplash.com/photo-1518684079-3c830dcef090?w=800',
     'https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=800'
   ],
-  true
+  true,
+  NULL,
+  NULL
 ),
 
 -- 5. Dubai Hills Estate Golf Mansion
@@ -150,7 +158,9 @@ INSERT INTO properties (
     'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800',
     'https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=800'
   ],
-  false
+  false,
+  NULL,
+  NULL
 ),
 
 -- 6. Off-Plan: Dubai Creek Harbour Waterfront
@@ -208,7 +218,9 @@ INSERT INTO properties (
     'https://images.unsplash.com/photo-1512632578888-169bbbc64f33?w=800',
     'https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=800'
   ],
-  false
+  false,
+  NULL,
+  NULL
 ),
 
 -- 8. Emirates Hills Mega Mansion
@@ -237,5 +249,7 @@ INSERT INTO properties (
     'https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=800',
     'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800'
   ],
-  true
+  true,
+  NULL,
+  NULL
 );
