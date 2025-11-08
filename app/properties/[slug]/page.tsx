@@ -115,7 +115,7 @@ export default async function PropertyDetailPage({
                 Premium Features
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {property.features.map((feature, index) => (
+                {property.features.map((feature: string, index: number) => (
                   <div key={index} className="flex items-center">
                     <div className="h-2 w-2 bg-secondary rounded-full mr-3" />
                     <span className="text-text font-inter">{feature}</span>
@@ -224,7 +224,7 @@ export default async function PropertyDetailPage({
               Similar Properties
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {similarProperties.map((prop) => (
+              {similarProperties.map((prop: any) => (
                 <PropertyCard key={prop.id} property={prop} />
               ))}
             </div>

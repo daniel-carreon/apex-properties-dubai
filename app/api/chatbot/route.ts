@@ -158,7 +158,7 @@ async function executeTooling(toolName: string, toolInput: any): Promise<any> {
       return {
         success: true,
         count: properties.length,
-        properties: properties.map((p) => ({
+        properties: properties.map((p: any) => ({
           id: p.id,
           title: p.title,
           slug: p.slug,
