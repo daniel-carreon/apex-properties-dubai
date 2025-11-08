@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import Luxury Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Italiana&display=swap');
+
+@layer base {
+  :root {
+    --primary: 10 10 10; /* #0A0A0A */
+    --secondary: 212 175 55; /* #D4AF37 */
+    --accent: 30 30 30; /* #1E1E1E */
+    --background: 250 250 250; /* #FAFAFA */
+    --text: 44 44 44; /* #2C2C2C */
+  }
+
+  body {
+    @apply bg-background text-text font-inter antialiased;
+  }
+
+  h1, h2, h3 {
+    @apply font-playfair;
+  }
+
+  h4, h5, h6 {
+    @apply font-montserrat;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Glassmorphism effect */
+  .glass {
+    @apply backdrop-blur-lg bg-white/10 border border-white/20;
+  }
+
+  .glass-dark {
+    @apply backdrop-blur-lg bg-black/30 border border-white/10;
+  }
+
+  /* Gold gradient text */
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-secondary via-secondary-light to-secondary bg-clip-text text-transparent;
+  }
+
+  /* Luxury card hover effect */
+  .card-luxury-hover {
+    @apply transition-all duration-300 hover:shadow-gold-glow hover:scale-[1.02];
+  }
+
+  /* Smooth scroll */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-background;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-secondary rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-secondary-dark;
+}
+
+/* Selection color */
+::selection {
+  @apply bg-secondary text-primary;
+}
+
+/* Smooth animations */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
